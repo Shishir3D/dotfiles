@@ -27,6 +27,7 @@ call plug#end()
 
 syntax enable             " Enables syntax highlighting
 set background=dark       " Dracula is a dark theme
+set clipboard=unnamedplus
 
 augroup TransparentBackground
   autocmd!
@@ -94,6 +95,15 @@ formatter.setup({
         }
       end
     },
+	html = {
+      function()
+        return {
+          exe = "prettier",
+          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+          stdin = true
+        }
+      end
+    },
     -- Add other filetype configurations here
   }
 })
@@ -102,7 +112,7 @@ formatter.setup({
 vim.cmd [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.py,*.js,*.ts,*.jsx,*.tsx FormatWrite
+    autocmd BufWritePost *.py,*.js,*.ts,*.jsx,*.tsx,*.html FormatWrite
   augroup END
 ]]
 
