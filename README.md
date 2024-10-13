@@ -15,3 +15,21 @@ My Linux config files
     <td>~/</td>
   </tr>
 </table> 
+
+## Installation Doumentation
+> Prequesite : Must have a terminal with transparency option
+
+1. Install neovim
+2. Create both the config files
+3. Paste the configuration files
+4. Run `:PlugInstall` in nvim
+5. Install `nodejs` `npm` and `pyright`
+
+```npm
+yay -S nodejs npm
+npm -g install 
+```
+
+Mason Screen
+
+![image](https://github.com/user-attachments/assets/24e2c51f-e2ff-4bf4-b6e5-68bd2c89d51e)
