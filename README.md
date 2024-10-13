@@ -24,11 +24,11 @@ My Linux config files
 3. Paste the configuration files
 4. Run `:PlugInstall` in nvim
 5. Install `nodejs` `npm` and `pyright`
-
 ```npm
 yay -S nodejs npm
 npm -g install 
 ```
+6. Run `:Mason` to check if all 6 extensions are installed or not.
 
 Mason Screen
 
