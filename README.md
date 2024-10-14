@@ -22,7 +22,10 @@ My Linux config files
 1. Install neovim
 2. Create both the config files
 3. Paste the configuration files
-4. Run `:PlugInstall` in nvim
+4. Install vim plug and Run `:PlugInstall` in nvim
+```curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
 5. Install `nodejs` `npm` and `pyright`
 ```npm
 yay -S nodejs npm
