@@ -23,8 +23,9 @@ My Linux config files
 2. Create both the config files
 3. Paste the configuration files
 4. Install vim plug and Run `:PlugInstall` in nvim
-```curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 5. Install `nodejs` `npm` and `pyright`
 ```npm
