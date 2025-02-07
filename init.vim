@@ -10,6 +10,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 " Optional | LSPConfig for additional configurations
 Plug 'neovim/nvim-lspconfig'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Auto-completion plugin
 Plug 'hrsh7th/nvim-cmp'
@@ -38,7 +39,13 @@ augroup END
 colorscheme dracula
 set relativenumber
 
+"Keybindings
 nnoremap <C-e> :NvimTreeToggle<CR>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+inoremap jj <Esc>
 
 " Set tab width to 4 spaces
 set tabstop=4
@@ -57,7 +64,8 @@ require('mason-lspconfig').setup({
 	  "pyright",
 	  "html",
 	  "cssls",
-	  "ts_ls"
+	  "ts_ls",
+	  "clangd"
 	}, -- You can list other servers here
 })
 
@@ -116,9 +124,14 @@ vim.cmd [[
   augroup END
 ]]
 
--- Enable autocompletion for Python with Pyright
+-- Enable LSP servers
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- C/C++ LSP (Clangd) setup
+lspconfig.clangd.setup{
+  capabilities = capabilities,
+}
 
 -- Python LSP setup
 lspconfig.pyright.setup{
