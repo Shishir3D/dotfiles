@@ -51,3 +51,8 @@ Mason Screen :
 
 ![image](https://github.com/user-attachments/assets/24e2c51f-e2ff-4bf4-b6e5-68bd2c89d51e)
 
+<hr>
+
+## Extentions
+[Clipboard Indicator](https://extensions.gnome.org/extension/779/clipboard-indicator/)
+[Dash to Panel](https://extensions.gnome.org/extension/1160/dash-to-panel/)
