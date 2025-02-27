@@ -14,6 +14,10 @@ My Linux config files
     <td>.tmux.conf</td>
     <td>~/</td>
   </tr>
+    <tr>
+    <td>.bashrc</td>
+    <td>~/</td>
+  </tr>
 </table> 
 
 ## Installation Doumentation
