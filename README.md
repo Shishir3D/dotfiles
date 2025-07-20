@@ -23,7 +23,7 @@ My Linux config files
 ## Installation Doumentation
 > Prequesite : Must have a terminal with transparency option
 
-1. Install neovim
+1. Install neovim [VERSION 0.10 and above only]
 2. Create both the config files
 3. Paste the configuration files
 4. Install vim plug and Run `:PlugInstall` in nvim
