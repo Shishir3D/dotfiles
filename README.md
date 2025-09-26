@@ -54,5 +54,6 @@ Mason Screen :
 <hr>
 
 ## Extentions
+```sudo apt install gnome-shell-extensions```
 [Clipboard Indicator](https://extensions.gnome.org/extension/779/clipboard-indicator/)
 [Dash to Panel](https://extensions.gnome.org/extension/1160/dash-to-panel/)
