@@ -1,35 +1,45 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'dracula/vim', { 'as': 'dracula' }  " Install Dracula theme
+Plug 'dracula/vim', { 'as': 'dracula' }  " Theme
 Plug 'nvim-tree/nvim-tree.lua'
 
-" Mason
+" Mason & LSP
 Plug 'williamboman/mason.nvim'
-" Mason LSPConfig
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-" Optional | LSPConfig for additional configurations
 Plug 'neovim/nvim-lspconfig'
-Plug 'christoomey/vim-tmux-navigator'
 
-" Auto-completion plugin
+" Auto-completion
 Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'    " LSP source for nvim-cmp
-Plug 'hrsh7th/cmp-buffer'      " Buffer completions
-Plug 'hrsh7th/cmp-path'        " File path completions
-Plug 'hrsh7th/cmp-cmdline'     " Command line completions
-Plug 'hrsh7th/cmp-vsnip'       " Snippet completions
-Plug 'hrsh7th/vim-vsnip'       " Snippet engine
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
-" Formatter plugin
+" Auto-pairs (updated plugin)
+Plug 'windwp/nvim-autopairs'
+
+" Formatter
 Plug 'mhartington/formatter.nvim'
+
+" Tmux navigation
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-syntax enable             " Enables syntax highlighting
-set background=dark       " Dracula is a dark theme
+" Basic settings
+syntax enable
+set background=dark
 set clipboard=unnamedplus
+set relativenumber
+set nohlsearch
+set tabstop=4
+set shiftwidth=4
+set nowrap
 
+" Dracula transparent background
 augroup TransparentBackground
   autocmd!
   autocmd ColorScheme * highlight Normal ctermbg=none guibg=none
@@ -37,61 +47,49 @@ augroup TransparentBackground
 augroup END
 
 colorscheme dracula
-set relativenumber
 
-"Keybindings
+" Keybindings
 nnoremap <C-e> :NvimTreeToggle<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 inoremap jj <Esc>
-set nohlsearch
 
-" Set tab width to 4 spaces
-set tabstop=4
-" Use 4 spaces when pressing Tab
-set shiftwidth=4
-
-" Lua config starts
-
+" Lua plugin configs
 lua require('nvim-tree').setup()
 
 lua << EOF
 -- Mason and LSP setup
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = { 
-	  "pyright",
-	  "html",
-	  "cssls",
-	  "ts_ls",
-	  "clangd"
-	}, -- You can list other servers here
+  ensure_installed = {
+    "pyright",
+    "html",
+    "cssls",
+    "ts_ls",
+    "clangd",
+  },
 })
 
--- Install tools like formatters or linters using mason-tool-installer
 require('mason-tool-installer').setup({
   ensure_installed = {
-    "black",     -- Python formatter
-    "prettier",  -- JavaScript/TypeScript formatter
+    "black",
+    "prettier",
   },
   auto_update = false,
   run_on_start = true,
 })
 
--- Import formatter.nvim
-local formatter = require('formatter')
-
--- Formatter configurations
-formatter.setup({
+-- Formatter config
+require("formatter").setup({
   filetype = {
     python = {
       function()
         return {
           exe = "black",
           args = { "-" },
-          stdin = true
+          stdin = true,
         }
       end
     },
@@ -100,24 +98,22 @@ formatter.setup({
         return {
           exe = "prettier",
           args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-          stdin = true
+          stdin = true,
         }
       end
     },
-	html = {
+    html = {
       function()
         return {
           exe = "prettier",
           args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-          stdin = true
+          stdin = true,
         }
       end
     },
-    -- Add other filetype configurations here
   }
 })
 
--- Format on save
 vim.cmd [[
   augroup FormatAutogroup
     autocmd!
@@ -125,43 +121,22 @@ vim.cmd [[
   augroup END
 ]]
 
--- Enable LSP servers
-local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- LSP setup
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- C/C++ LSP (Clangd) setup
-lspconfig.clangd.setup{
-  capabilities = capabilities,
-}
+lspconfig.clangd.setup({ capabilities = capabilities })
+lspconfig.pyright.setup({ capabilities = capabilities })
+lspconfig.html.setup({ capabilities = capabilities })
+lspconfig.cssls.setup({ capabilities = capabilities })
+lspconfig.ts_ls.setup({ capabilities = capabilities })
 
--- Python LSP setup
-lspconfig.pyright.setup{
-  capabilities = capabilities,
-}
-
--- HTML LSP setup
-lspconfig.html.setup{
-  capabilities = capabilities,
-}
-
--- CSS LSP setup
-lspconfig.cssls.setup{
-  capabilities = capabilities,
-}
-
--- JavaScript/TypeScript LSP setup
-lspconfig.ts_ls.setup{
-  capabilities = capabilities,
-}
-
--- Set up nvim-cmp for autocompletion
-local cmp = require'cmp'
-
+-- nvim-cmp setup
+local cmp = require("cmp")
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
-
 local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
@@ -169,7 +144,7 @@ end
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users
+      vim.fn["vsnip#anonymous"](args.body)
     end,
   },
   mapping = {
@@ -177,38 +152,36 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }),
-    -- Tab mapping for nvim-cmp
+    ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif vim.fn  == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
       elseif has_words_before() then
         cmp.complete()
       else
-        fallback() -- Fallback to normal behavior (e.g., indent)
+        fallback()
       end
     end, { "i", "s" }),
-
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
       else
         fallback()
       end
     end, { "i", "s" }),
   },
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },  -- LSP source for autocompletion
-    { name = 'vsnip' },     -- Snippet source
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
   }, {
-    { name = 'buffer' },    -- Buffer source
+    { name = 'buffer' },
   })
 })
+
+-- Autopairs setup
+require("nvim-autopairs").setup {}
+
+-- Integration with nvim-cmp
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 EOF
