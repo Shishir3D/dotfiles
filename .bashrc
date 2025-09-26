@@ -124,6 +124,10 @@ export NVM_DIR="$HOME/.nvm"
 export PS1="\[\e[32m\]\W\[\e[0m\] > "
 alias nv='nvim'
 alias c='printf "\033[H\033[2J";'
+alias dark="gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
+alias light="gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'"
+alias full="xdotool key F11"
+alias py="python3"
 
 export PATH="/home/shishir/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/shishir/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
