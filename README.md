@@ -46,6 +46,10 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 10. Inside tmux press `Ctrl + B` + `I`
 > assuming that `Ctrl + B` is your prefix key
 
+11. Install this to yank lines into system registery (if on wayland)
+```
+sudo apt install wl-clipboard
+```
 
 Mason Screen :
 
