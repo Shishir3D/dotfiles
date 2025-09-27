@@ -33,7 +33,7 @@ call plug#end()
 syntax enable
 set background=dark
 set clipboard=unnamedplus
-set relativenumber
+set number
 set nohlsearch
 set tabstop=4
 set shiftwidth=4
@@ -122,16 +122,15 @@ vim.cmd [[
 ]]
 
 -- LSP setup
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-lspconfig.clangd.setup({ capabilities = capabilities })
-lspconfig.pyright.setup({ capabilities = capabilities })
-lspconfig.html.setup({ capabilities = capabilities })
-lspconfig.cssls.setup({ capabilities = capabilities })
-lspconfig.ts_ls.setup({ capabilities = capabilities })
+vim.lsp.config("clangd", { capabilities = capabilities })
+vim.lsp.config("pyright", { capabilities = capabilities })
+vim.lsp.config("html", { capabilities = capabilities })
+vim.lsp.config("cssls", { capabilities = capabilities })
+vim.lsp.config("ts_ls", { capabilities = capabilities })
 
--- nvim-cmp setup
 local cmp = require("cmp")
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
